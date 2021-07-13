@@ -68,4 +68,5 @@ Shoulda::Matchers.configure do |config|
     with.test_framework :rspec
     with.library :rails
   end
+  Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 end
