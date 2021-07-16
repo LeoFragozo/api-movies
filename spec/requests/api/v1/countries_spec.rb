@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Countries", type: :request do
-  describe "GET /index" do
 
-      it 'must return 200 http status' do
+  describe "GET /index" do    
+    it 'must return 200 http status' do
         country = create(:country)
         get '/api/v1/countries'
         expect(response).to have_http_status(:ok)
@@ -22,8 +22,21 @@ RSpec.describe "Api::V1::Countries", type: :request do
         expect(json_body[:data][0][:name]).to eq('Brasil' )
         expect(json_body[:data][1][:name]).to eq('Japan' )
         expect(json_body[:data][2][:name]).to eq('EUA' )
-
       end
+ 
+      describe 'GET #show' do
+        it 'must return 200 http status' do
+          country = create(:country)
+          get "/api/v1/countries/#{country.id}"
+          expect(response).to have_http_status(:ok)
+          end
 
+          it 'must return Brazil data' do
+            country = create(:country)
+            get "/api/v1/countries/1"
+            expect(json_body[:data][:name]).to eq('Brasil' )
+          end
+        
       end
-    end
+  end
+end
