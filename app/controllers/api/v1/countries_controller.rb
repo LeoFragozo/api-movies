@@ -13,9 +13,9 @@ module Api
       def show
         country = Country.find(params[:id])
         if country.status == true
-          render json: country, status: :ok
+          render json: country, message: 'Países encontrados', status: :ok
         else
-          render json: country, status: :not_found
+          render json: country, message:  'Países não encontrados',  status: :not_found
         end
       end
 
