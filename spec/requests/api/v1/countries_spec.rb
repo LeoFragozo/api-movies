@@ -39,9 +39,15 @@ RSpec.describe "Api::V1::Countries", type: :request do
       it "returns a 404 custom status code" do
         country = create(:country, status: false)
         get "/api/v1/countries/#{country.id}"
-        expect(response).to have_http_status(404)
-       end
-  
+        expect(response).to have_http_status(404) 
+      end
+      
+      it 'must return Japan data' do
+        country = create(:country, name: 'Japan', status: true)
+        get "/api/v1/countries/#{country.id}"
+        expect(json_body[:name]).to eq('Japan')
+      end
+      
     end
   end
 end
