@@ -51,11 +51,9 @@ RSpec.describe "Api::V1::Countries", type: :request do
       it 'must return nil data' do
         country = create(:country, name: nil, status: 'false' )
         get "/api/v1/countries/#{country.id}"
-        expect(json_body[:message]).to eq ('País não encontrado') 
-        
+        expect(json_body[:message]).to eq ('País inativo') 
       end
     end
     
-   
   end
 end

@@ -6,17 +6,17 @@ module Api
 
       def index
         countries = Country.order('created_at ASC')
-        render json: { status: 'SUCCESS', message: 'Países carregados', data: countries },
+        render json: { status:'SUCCESS', message:'Países carregados', data: countries },
            status: :ok
       end
 
       def show
         country = Country.find(params[:id])
         if country.status == true
-          render json: {body: country,  message: 'País encontrado'}, 
+          render json: {body:country,  message:'País encontrado'}, 
           status: :ok
         else
-          render json: {body: country,  message: 'País não encontrado'},
+          render json: {body:country,  message:'País inativo'},
             status: :not_found
         end
       end
@@ -27,4 +27,4 @@ module Api
       end
     end
   end
-end 
+end
