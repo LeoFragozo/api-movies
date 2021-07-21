@@ -21,6 +21,12 @@ module Api
         end
       end
 
+      def destroy
+        country = Country.find(params[:id])
+        country.destroy
+        render json: { status: 'SUCCESS', message: 'País deletado ', data: country }, status: :no_content
+      end
+
     private
       def country_params
         params.require(:country).permit(:id, :name)

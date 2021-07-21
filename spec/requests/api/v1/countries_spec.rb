@@ -54,6 +54,15 @@ RSpec.describe "Api::V1::Countries", type: :request do
         expect(json_body[:message]).to eq ('País inativo') 
       end
     end
+
+      describe "delete operations" do
+
+      it 'deletes the country' do
+          country = create(:country)
+          delete "/api/v1/countries/#{country.id}"
+          expect(response.status).to eq(204)
+      end
+    end
     
   end
 end
