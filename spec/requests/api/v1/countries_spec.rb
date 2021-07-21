@@ -56,13 +56,21 @@ RSpec.describe "Api::V1::Countries", type: :request do
     end
 
       describe "delete operations" do
-
-      it 'deletes the country' do
-          country = create(:country)
-          delete "/api/v1/countries/#{country.id}"
-          expect(response.status).to eq(204)
+  
+     it "avoid delete of active countries" do
+        country = create(:country, status: 'true' )
+        delete "/api/v1/countries/#{country.id}"
+        expect(json_body[:message]).to eq ('Não é possível excluir um país ativo')
+        expect(response.status).to eq(422)        
       end
-    end
-    
+
+      it "allow delete of inactive countries" do
+        country = create(:country, status: 'false' )
+        delete "/api/v1/countries/#{country.id}"
+        expect(json_body[:message]).to eq ('País deletado')
+        expect(response.status).to eq(204)          
+     end
+   end
+
   end
 end
