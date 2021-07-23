@@ -27,8 +27,8 @@ module Api
           render json: {body:country, message:'Não é possível excluir um país ativo'}, 
           status: :unprocessable_entity
         else
-          render json: {message:'País inativo deletado' , 
-          status: :no_content}
+          render json: {body:country},
+          status: :no_content
       end
     end
 
@@ -36,10 +36,10 @@ module Api
       country = Country.find(params[:id])
       if country.status == true 
         country.update(country_params)
-        render json: {body: country, message:'País atualizado' },
-         status: :ok
+        render json: {body:country, message:'País atualizado' },
+        status: :ok
       else
-        render json: {body: country, message:'Erro ao atualizar país'},
+        render json: {body:country, message:'Erro ao atualizar país'},
         status: :unprocessable_entity
       end
     end
