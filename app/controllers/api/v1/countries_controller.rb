@@ -6,7 +6,7 @@ module Api
 
       def index
         countries = Country.order('created_at ASC')
-        render json: { status:'SUCCESS', message:'Países carregados', data: countries },
+        render json: {status:'SUCCESS', message:'Países carregados', data: countries },
         status: :ok
       end
 
@@ -22,14 +22,25 @@ module Api
       end
 
       def destroy
-        country = Country.find(params[:id])
+        country = Country.destroy(params[:id])
         if country.status == true
           render json: {body:country, message:'Não é possível excluir um país ativo'}, 
           status: :unprocessable_entity
         else
-        country.destroy
-          render json: { body:country, message: 'País inativo deletado' }, 
-          status: :no_content
+          render json: {message:'País inativo deletado' , 
+          status: :no_content}
+      end
+    end
+
+    def update
+      country = Country.find(params[:id])
+      if country.status == true 
+        country.update(country_params)
+        render json: {body: country, message:'País atualizado' },
+         status: :ok
+      else
+        render json: {body: country, message:'Erro ao atualizar país'},
+        status: :unprocessable_entity
       end
     end
 

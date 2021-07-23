@@ -55,7 +55,7 @@ RSpec.describe "Api::V1::Countries", type: :request do
       end
     end
 
-      describe "delete operations" do
+    describe "delete operations" do
   
      it "avoid delete of active countries" do
         country = create(:country, status: 'true' )
@@ -64,12 +64,32 @@ RSpec.describe "Api::V1::Countries", type: :request do
         expect(response.status).to eq(422)        
       end
 
-      it "allow delete of inactive countries" do
+      it "allow delete of inactive countries" do #todo fix that spec to return 204
         country = create(:country, status: 'false' )
         delete "/api/v1/countries/#{country.id}"
-        expect(json_body[:message]).to eq ('País deletado')
+        expect(json_body[:message]).to eq ('País inativo deletado')
         expect(response.status).to eq(204)          
      end
+    end
+
+     describe "update operation" do
+  
+      it "successfully updates a country" do
+         country = create(:country, status: 'true' )
+         body_data = { country: { name: 'Reino Unido'} }
+         put "/api/v1/countries/#{country.id}", params: body_data
+         expect(json_body[:message]).to eq ('País atualizado')
+         expect(response.status).to eq(200)        
+       end
+
+       it "error in updating a country" do
+        country = create(:country, status: 'false' )
+        body_data = { country: { name: ''} }
+        put "/api/v1/countries/#{country.id}", params: body_data
+        expect(json_body[:message]).to eq ('Erro ao atualizar país')
+        expect(response.status).to eq(422) 
+
+      end
    end
 
   end
