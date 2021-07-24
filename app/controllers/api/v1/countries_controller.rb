@@ -21,6 +21,15 @@ module Api
         end
       end
 
+      def create
+        country = Country.new(country_params)
+				if country.save
+					render json: {status: 'SUCCESS', message:'País salvo', data:country},status: :ok
+				else
+					render json: {status: 'ERROR', message:'País não salvo', data:country.erros},status: :unprocessable_entity
+				end
+      end
+
       def destroy
         country = Country.destroy(params[:id])
         if country.status == true
